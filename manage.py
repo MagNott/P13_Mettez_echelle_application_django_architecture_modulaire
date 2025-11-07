@@ -3,6 +3,12 @@ import sys
 
 
 def main():
+    """
+    Run administrative tasks.
+
+    Raises:
+        ImportError: If Django is not installed or cannot be imported.
+    """
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'oc_lettings_site.settings')
     try:
         from django.core.management import execute_from_command_line
