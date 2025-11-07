@@ -17,6 +17,9 @@ class Address(models.Model):
         zip_code (int): Postal code, max 5 digits.
         country_iso_code (str): Three-letter country code (ISO 3166-1 alpha-3).
     """
+    class Meta:
+        verbose_name_plural = "addresses"
+
     number = models.PositiveIntegerField(validators=[MaxValueValidator(9999)])
     street = models.CharField(max_length=64)
     city = models.CharField(max_length=64)
