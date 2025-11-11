@@ -16,7 +16,7 @@ class TestProfileView:
         assert "user_1" in content
         assert "user_2" in content
         assert "user_3" in content
-    
+
     @pytest.mark.django_db
     def test_index_view_empty_list(self, client):
         """

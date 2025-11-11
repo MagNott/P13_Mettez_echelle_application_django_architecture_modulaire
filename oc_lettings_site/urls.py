@@ -10,3 +10,7 @@ urlpatterns = [
     path('profiles/', include('profiles.urls', namespace='profiles')),
     path('admin/', admin.site.urls),
 ]
+
+# customized errors views
+handler404 = 'oc_lettings_site.views.custom_404'
+handler500 = 'oc_lettings_site.views.custom_500'

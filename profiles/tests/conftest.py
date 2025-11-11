@@ -3,7 +3,6 @@ import pytest
 from profiles.models import Profile
 
 
-
 @pytest.fixture
 def sample_profile():
     user_sample = User.objects.create(username="john_doe")
