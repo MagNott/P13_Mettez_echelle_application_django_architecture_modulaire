@@ -1,5 +1,5 @@
 from django.http import HttpRequest, HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import Profile
 
 
@@ -30,7 +30,7 @@ def profile(request: HttpRequest, username: str) -> HttpResponse:
     Returns:
         HttpResponse: The rendered HTML response for the profile detail page.
     """
-    profile = Profile.objects.get(user__username=username)
+    profile = get_object_or_404(Profile, user__username=username)
     context = {'profile': profile}
 
-    return render(request, 'profile.html', context)
+    return render(request, 'profiles/profile.html', context)

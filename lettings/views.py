@@ -1,5 +1,5 @@
 from django.http import HttpRequest, HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import Letting
 
 
@@ -30,10 +30,10 @@ def letting(request: HttpRequest, letting_id: int) -> HttpResponse:
     Returns:
         HttpResponse: The rendered HTML response for the letting detail page.
     """
-    letting = Letting.objects.get(id=letting_id)
+    letting = get_object_or_404(Letting, id=letting_id)
     context = {
         'title': letting.title,
         'address': letting.address,
     }
 
-    return render(request, 'letting.html', context)
+    return render(request, 'lettings/letting.html', context)
