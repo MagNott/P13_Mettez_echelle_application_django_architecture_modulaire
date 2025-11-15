@@ -1,6 +1,9 @@
+import logging
 from django.http import HttpRequest, HttpResponse
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
 from .models import Profile
+
+logger = logging.getLogger(__name__)
 
 
 def index(request: HttpRequest) -> HttpResponse:
@@ -13,7 +16,11 @@ def index(request: HttpRequest) -> HttpResponse:
     Returns:
         HttpResponse: The rendered profiles index page.
     """
-    profiles_list = Profile.objects.all()
+    try:
+        profiles_list = Profile.objects.all()
+    except Exception as e:
+        profiles_list = []
+        logger.error(f"Database error when fetching profiles: {e}")
     context = {'profiles_list': profiles_list}
 
     return render(request, 'profiles/index.html', context)
@@ -30,7 +37,14 @@ def profile(request: HttpRequest, username: str) -> HttpResponse:
     Returns:
         HttpResponse: The rendered HTML response for the profile detail page.
     """
-    profile = get_object_or_404(Profile, user__username=username)
+    try:
+        profile = Profile.objects.get(user__username=username)
+    except Profile.DoesNotExist:
+        logger.warning(f"Profile with username {username} does not exist")
+        return render(request, '404.html', status=404)
+    except Exception as e:
+        logger.error(f"Database error fetching profile {username}: {e}")
+        return render(request, '500.html', status=500)
     context = {'profile': profile}
 
     return render(request, 'profiles/profile.html', context)
