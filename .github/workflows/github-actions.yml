@@ -1,6 +1,10 @@
 name: GitHub Actions Demo
 run-name: ${{ github.actor }} CI for oc-lettings-site 🚀
-on: [push]
+on:
+  push:
+  pull_request:
+    branches:
+      - master
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -39,6 +43,7 @@ jobs:
   build:
     needs: [test, flake8]
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
 
     steps:
       - uses: actions/checkout@v4
@@ -60,6 +65,7 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
 
     steps:
       - name: Deploy to Render
