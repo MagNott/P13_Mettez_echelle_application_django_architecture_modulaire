@@ -1,77 +1,125 @@
-## Résumé
+# Site web d'Orange County Lettings
 
-Site web d'Orange County Lettings
+Ce repository contient le code source du site web d'Orange County Lettings, un site de location immobilière fictif développé dans le cadre du parcours "Développeur d'application - Python" d'OpenClassrooms.
 
-## Développement local
+Ce site web permet aux utilisateurs de consulter des profils de propriétaires et des annonces de locations immobilières. Il est construit avec le framework web Django et utilise une base de données SQLite pour stocker les informations.
+
+## Architecture du projet
+Le projet est structuré de la manière suivante :
+- `lettings/` : Application Django gérant les annonces de locations.
+- `oc_lettings_site/` : Dossier principal du projet Django. Contient les fichiers de configuration principaux du projet Django.
+- `profiles/` : Application Django gérant les profils des propriétaires.
+- `static/` : Contient les fichiers statiques (CSS, JavaScript, images).
+- `templates/` : Contient les templates HTML utilisés pour rendre les pages web (accueil sur le site et pages 404 et 500, les autres templates sont intégrés dans les apps correspondantes).
+- `oc-lettings-site.sqlite3` : Fichier de base de données SQLite.
+
+## Documentation complète
+La documentation détaillée du projet (architecture modulaire, schémas, description des apps, guides techniques, CI/CD, Sentry, etc.) est disponible sur ReadTheDocs :
+
+https://p13-mettez-echelle-application-django-architecture-modulaire.readthedocs.io/
+
+Ce README contient uniquement :
+- les informations essentielles pour installer, lancer et déployer le projet,
+- un résumé de l’architecture,
+- les liens vers la documentation complète.
+
+
+## Installation et exécution en local
 
 ### Prérequis
 
-- Compte GitHub avec accès en lecture à ce repository
-- Git CLI
-- SQLite3 CLI
-- Interpréteur Python, version 3.6 ou supérieure
+- Python 3.10 ou supérieur
+- Pip
+- Git (pour cloner le dépôt)
+- Le module `venv` pour créer des environnements virtuels
+- Connexion Internet pour télécharger les dépendances
+- Docker (optionnel, pour le déploiement local en conteneurs)
+
 
 Dans le reste de la documentation sur le développement local, il est supposé que la commande `python` de votre OS shell exécute l'interpréteur Python ci-dessus (à moins qu'un environnement virtuel ne soit activé).
 
-### macOS / Linux
 
-#### Cloner le repository
+### Cloner le repository
 
 - `cd /path/to/put/project/in`
-- `git clone https://github.com/OpenClassrooms-Student-Center/Python-OC-Lettings-FR.git`
+- `git clone https://github.com/MagNott/P13_Mettez_echelle_application_django_architecture_modulaire`
 
-#### Créer l'environnement virtuel
+### Créer l'environnement virtuel
 
-- `cd /path/to/Python-OC-Lettings-FR`
+- `cd /path/to/P13_Mettez_echelle_application_django_architecture_modulaire`
 - `python -m venv venv`
-- `apt-get install python3-venv` (Si l'étape précédente comporte des erreurs avec un paquet non trouvé sur Ubuntu)
-- Activer l'environnement `source venv/bin/activate`
-- Confirmer que la commande `python` exécute l'interpréteur Python dans l'environnement virtuel
-`which python`
-- Confirmer que la version de l'interpréteur Python est la version 3.6 ou supérieure `python --version`
-- Confirmer que la commande `pip` exécute l'exécutable pip dans l'environnement virtuel, `which pip`
+- Activer l'environnement virutel : 
+    - macOS / Linux :`source venv/bin/activate`
+    - Windows : `.\venv\Scripts\Activate.ps1`
+- Vérifier que l’environnement est actif : la commande `python --version` doit afficher une version ≥ 3.10.
 - Pour désactiver l'environnement, `deactivate`
 
-#### Exécuter le site
+### Exécuter le site
 
-- `cd /path/to/Python-OC-Lettings-FR`
+- `cd /path/to/P13_Mettez_echelle_application_django_architecture_modulaire`
 - `source venv/bin/activate`
-- `pip install --requirement requirements.txt`
+- `pip install -r requirements.txt`
 - `python manage.py runserver`
 - Aller sur `http://localhost:8000` dans un navigateur.
 - Confirmer que le site fonctionne et qu'il est possible de naviguer (vous devriez voir plusieurs profils et locations).
 
-#### Linting
+### Linting
 
-- `cd /path/to/Python-OC-Lettings-FR`
+Pour vérifier le code avec flake8, utilisez la commande suivante après avoir activé l'environnement virtuel :
+```bash
+cd /path/to/P13_Mettez_echelle_application_django_architecture_modulaire
+```
+```bash
+source venv/bin/activate
+```
+```bash
+flake8
+```
+
+### Tests unitaires
+
+Pour exécuter les tests unitaires, utilisez la commande suivante après avoir activé l'environnement virtuel :
+- `cd /path/to/P13_Mettez_echelle_application_django_architecture_modulaire`
 - `source venv/bin/activate`
-- `flake8`
+```bash
+pytest --cov --cov-fail-under=80
+```
 
-#### Tests unitaires
 
-- `cd /path/to/Python-OC-Lettings-FR`
-- `source venv/bin/activate`
-- `pytest`
+### Base de données
 
-#### Base de données
+Le projet utilise une base SQLite par défaut.  
+Aucune action manuelle n'est nécessaire : la base est automatiquement créée et migrée lors du premier lancement du serveur Django.
 
-- `cd /path/to/Python-OC-Lettings-FR`
-- Ouvrir une session shell `sqlite3`
-- Se connecter à la base de données `.open oc-lettings-site.sqlite3`
-- Afficher les tables dans la base de données `.tables`
-- Afficher les colonnes dans le tableau des profils, `pragma table_info(Python-OC-Lettings-FR_profile);`
-- Lancer une requête sur la table des profils, `select user_id, favorite_city from
-  Python-OC-Lettings-FR_profile where favorite_city like 'B%';`
-- `.quit` pour quitter
 
-#### Panel d'administration
+### Panel d'administration
 
 - Aller sur `http://localhost:8000/admin`
 - Connectez-vous avec l'utilisateur `admin`, mot de passe `Abc1234!`
 
-### Windows
 
-Utilisation de PowerShell, comme ci-dessus sauf :
+## Configuration 
+Les variables d'environnement suivantes peuvent être configurées pour modifier le comportement du projet :
 
-- Pour activer l'environnement virtuel, `.\venv\Scripts\Activate.ps1` 
-- Remplacer `which <my-command>` par `(Get-Command <my-command>).Path`
+- `DEBUG` : Si défini à `1`, active le mode debug de Django. Par défaut, `0`.
+- `SECRET_KEY` : Clé secrète utilisée par Django. Par défaut, une clé de développement est utilisée.
+- `SENTRY_DSN` : DSN pour Sentry. Par défaut, aucune valeur n'est définie.
+
+
+## Déploiement avec Docker
+Un pipeline CI/CD est configuré pour déployer automatiquement le projet sur render à chaque push sur la branche `main` qui :
+    - lance les tests
+    - construit l'image Docker
+    - pousse le code
+    - déploie automatiquement sur render.com
+
+### Configuration requise 
+- Variables d'environnement sur render.com :
+  - `DEBUG` : `0`
+  - `SECRET_KEY` : une clé secrète sécurisée
+  - `SENTRY_DSN` : (optionnel) DSN pour Sentry
+
+
+
+
+
