@@ -62,7 +62,7 @@ jobs:
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/oc-lettings-site:${{ github.sha }}
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/oc-lettings-site:latest
 
-  deploy:
+  deploy-render:
     needs: build 
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master' && github.event_name == 'push'
@@ -75,8 +75,9 @@ jobs:
           curl "$deploy_url"
 
   deploy-vps:
+    needs: build 
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/github_action_deploy_vps_25' && github.event_name == 'push'
+    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
     steps:
       - name: Create SSH key
         run: |
@@ -91,7 +92,7 @@ jobs:
           SSH_KEY_PATH: ${{ github.workspace }}/../private.key
       - name: Deploy to VPS
         run: |
-          ssh -i $SSH_KEY_PATH $SSH_USER@$SSH_HOST "cd $PROJECT_VPS_PATH || exit 2 && docker pull magnott/oc-lettings-site:latest && docker compose up -d"
+          ssh -i $SSH_KEY_PATH $SSH_USER@$SSH_HOST "cd $PROJECT_VPS_PATH && docker pull magnott/oc-lettings-site:latest && docker compose up -d"
         env:
           SSH_USER: ${{secrets.SSH_USER}}
           SSH_HOST: ${{secrets.SSH_HOST}}
