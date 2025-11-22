@@ -91,7 +91,7 @@ jobs:
           SSH_KEY_PATH: ${{ github.workspace }}/../private.key
       - name: Deploy to VPS
         run: |
-          ssh -i $SSH_KEY_PATH $SSH_USER@$SSH_HOST 'cd $PROJECT_VPS_PATH || exit 2 && docker pull magnott/oc-lettings-site:latest && docker compose up -d'
+          ssh -i $SSH_KEY_PATH $SSH_USER@$SSH_HOST "cd $PROJECT_VPS_PATH || exit 2 && docker pull magnott/oc-lettings-site:latest && docker compose up -d"
         env:
           SSH_USER: ${{secrets.SSH_USER}}
           SSH_HOST: ${{secrets.SSH_HOST}}
