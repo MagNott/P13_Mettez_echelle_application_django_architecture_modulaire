@@ -119,7 +119,7 @@ Primary: Render
 **Type**: Docker-based Web Service with automatic deployment via webhook
 
 For detailed configuration (environment variables, secrets, setup steps), see the 
-`Render configuration section in README <https://github.com/MagNott/P13_Mettez_echelle_application_django_architecture_modulaire#2-configuration-render>`_.
+`Render configuration section in README <https://github.com/MagNott/P13_Mettez_echelle_application_django_architecture_modulaire/tree/add_deployement_readme_21?tab=readme-ov-file#2-configuration-render>`_.
 
 **Deployment process**:
 
@@ -150,7 +150,7 @@ Alternative: VPS with Docker Compose
 **Note**: This is a secondary deployment option and not the primary production target.
 
 For detailed deployment procedures and step-by-step instructions, see the 
-`project README <https://github.com/MagNott/P13_Mettez_echelle_application_django_architecture_modulaire#déploiement>`_.
+`VPS configuration section in README <https://github.com/MagNott/P13_Mettez_echelle_application_django_architecture_modulaire/tree/add_deployement_readme_21?tab=readme-ov-file#d%C3%A9ploiement-continu-compl%C3%A9mentaire-vps>`_.
 
 Branching Strategy
 ------------------
